@@ -18,14 +18,14 @@ Route::group(['prefix'=>'post'], function(){
    Route::get('/',[\App\Http\Controllers\PostController::class,'index']);
    Route::get('/{pid}',[\App\Http\Controllers\PostController::class,'singlePost']);
    Route::post('/',[\App\Http\Controllers\PostController::class,'storePost']);
-   Route::delete(/{pid},[\App\Http\Controllers\PostController::class,'deletePost']);
+   Route::delete('/{pid}',[\App\Http\Controllers\PostController::class,'deletePost']);
 });
 
 Route::group(['prefix'=>'task'], function(){
     Route::get('/',[\App\Http\Controllers\TaskController::class,'index']);
     Route::get('/{tid}',[\App\Http\Controllers\TaskController::class,'singleTask']);
     Route::post('/',[\App\Http\Controllers\TaskController::class,'storeTask']);
-    Route::delete(/{tid},[\App\Http\Controllers\TaskController::class,'deleteTask']);
+    Route::delete('/{tid}',[\App\Http\Controllers\TaskController::class,'deleteTask']);
 });
 
 Route::post('/comment/add',[\App\Http\Controllers\CommentController::class,'add']);
