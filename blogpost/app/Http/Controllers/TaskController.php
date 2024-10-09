@@ -12,8 +12,8 @@ class TaskController extends Controller
         return Task::all();
     }
 
-    public function singleTask(Task $id){
-        return $id->only(['id','title','slug','description']);
+    public function singleTask(Task $tid){
+        return $tid->only(['id','title','slug','description']);
     }
 
     public function storeTask(Request $request){
@@ -21,6 +21,7 @@ class TaskController extends Controller
         $task->title = $request->get('title');
         $task->slug = $request->get('slug');
         $task->description = $request->get('description');
+        $task->user_id = $request->get('user_id');
         $task->save();
 
         return response()->json("Task Added");

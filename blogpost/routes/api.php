@@ -16,11 +16,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix'=>'post'], function(){
    Route::get('/',[\App\Http\Controllers\PostController::class,'index']);
-    Route::post('/',[\App\Http\Controllers\PostController::class,'storePost']);
+   Route::get('/{pid}',[\App\Http\Controllers\PostController::class,'singlePost']);
+   Route::post('/',[\App\Http\Controllers\PostController::class,'storePost']);
 });
 
 Route::group(['prefix'=>'task'], function(){
     Route::get('/',[\App\Http\Controllers\TaskController::class,'index']);
-    Route::get('/{id}',[\App\Http\Controllers\TaskController::class,'singleTask']);
+    Route::get('/{tid}',[\App\Http\Controllers\TaskController::class,'singleTask']);
     Route::post('/',[\App\Http\Controllers\TaskController::class,'storeTask']);
 });

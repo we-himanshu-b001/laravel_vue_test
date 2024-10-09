@@ -12,8 +12,8 @@ class PostController extends Controller
         return Post::all();
     }
 
-    public function singlePost(Post $id){
-        return $id->only(['id','title','slug','description']);
+    public function singlePost(Post $pid){
+        return $pid->only(['id','title','slug','description']);
     }
 
     public function storePost(Request $request){
@@ -21,6 +21,7 @@ class PostController extends Controller
         $post->title = $request->get('title');
         $post->slug = $request->get('slug');
         $post->description = $request->get('description');
+        $post->user_id = $request->get('user_id');
         $post->save();
 
         return response()->json("Post Added");
