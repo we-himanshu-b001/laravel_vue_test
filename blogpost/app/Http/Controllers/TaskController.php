@@ -26,4 +26,9 @@ class TaskController extends Controller
 
         return response()->json("Task Added");
     }
+
+    public function deleteTask(Task $tid){
+        $tid->delete();
+        return response()->json('Task Deleted');
+    }
 }

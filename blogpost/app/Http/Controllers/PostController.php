@@ -26,4 +26,9 @@ class PostController extends Controller
 
         return response()->json("Post Added");
     }
+
+    public function deletePost(Post $pid){
+        $pid->delete();
+        return response()->json('Post Deleted');
+    }
 }
