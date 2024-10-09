@@ -13,7 +13,7 @@ class PostController extends Controller
     }
 
     public function singlePost(Post $pid){
-        return $pid->only(['id','title','slug','description']);
+        return $pid->with('getComment')->only(['id','title','slug','description']);
     }
 
     public function storePost(Request $request){

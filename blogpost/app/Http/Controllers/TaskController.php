@@ -13,7 +13,7 @@ class TaskController extends Controller
     }
 
     public function singleTask(Task $tid){
-        return $tid->only(['id','title','slug','description']);
+        return $tid->with('getComment')->get(['id','title','slug','description']);
     }
 
     public function storeTask(Request $request){

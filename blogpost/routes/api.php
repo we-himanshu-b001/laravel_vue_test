@@ -25,3 +25,5 @@ Route::group(['prefix'=>'task'], function(){
     Route::get('/{tid}',[\App\Http\Controllers\TaskController::class,'singleTask']);
     Route::post('/',[\App\Http\Controllers\TaskController::class,'storeTask']);
 });
+
+Route::post('/comment/add',[\App\Http\Controllers\CommentController::class,'add']);
