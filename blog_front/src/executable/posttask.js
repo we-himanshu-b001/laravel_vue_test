@@ -69,8 +69,17 @@ export default function usePostTask(){
     }
 
     const getTask = async (id)=>{
-        const response = await axios.get('http://127.0.0.1:2000/api/task/'+id);
-        task.value=response.data;
+        try{
+            const response = await axios.get('http://127.0.0.1:2000/api/task/'+id);
+            // toast.success("Task Posted Successfully!", {
+            //     position: toast.POSITION.TOP_CENTER,
+            // });
+            task.value=response.data;
+        }catch(error){
+            if(error.response.status === 422){
+                errors.value=error.response.data.errors;
+            }
+        }
     }
 
     const storeTask = async(data)=>{
@@ -127,11 +136,12 @@ export default function usePostTask(){
     const storeTaskComment = async(data)=>{
         try{
             await axios.post('http://127.0.0.1:2000/api/task/'+data.id+'/comment',data);
-            toast.success("Comment added Successfully!", {
-                position: toast.POSITION.TOP_CENTER,
-            });
+
             // await router.push({name:"singletask",params:{id:rid}});
             router.go(0);
+            // toast.success("Comment added Successfully!", {
+            //     position: toast.POSITION.TOP_CENTER,
+            // });
         }catch(error){
             if(error.response.status === 422){
                 errors.value=error.response.data.errors;
