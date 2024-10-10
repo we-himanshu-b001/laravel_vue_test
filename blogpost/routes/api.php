@@ -20,6 +20,7 @@ Route::group(['prefix'=>'post'], function(){
    Route::post('/',[\App\Http\Controllers\PostController::class,'storePost']);
    Route::put('/{pid}',[\App\Http\Controllers\PostController::class,'updatePost']);
    Route::delete('/{pid}',[\App\Http\Controllers\PostController::class,'deletePost']);
+    Route::post('/{tid}/comment',[\App\Http\Controllers\CommentController::class,'add']);
 });
 
 Route::group(['prefix'=>'task'], function(){
@@ -28,6 +29,7 @@ Route::group(['prefix'=>'task'], function(){
     Route::post('/',[\App\Http\Controllers\TaskController::class,'storeTask']);
     Route::put('/{tid}',[\App\Http\Controllers\TaskController::class,'updateTask']);
     Route::delete('/{tid}',[\App\Http\Controllers\TaskController::class,'deleteTask']);
+    Route::post('/{tid}/comment',[\App\Http\Controllers\CommentController::class,'add']);
 });
 
-Route::post('/comment/add',[\App\Http\Controllers\CommentController::class,'add']);
+//Route::post('/comment/add',[\App\Http\Controllers\CommentController::class,'add']);

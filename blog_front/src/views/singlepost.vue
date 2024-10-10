@@ -2,7 +2,7 @@
 import {onMounted,reactive} from "vue";
 import usePostTask from "../executable/posttask";
 
-const { post,getPost,storeComment, deletePost, errors } = usePostTask();
+const { post,getPost,storePostComment, deletePost, errors } = usePostTask();
 
 const props = defineProps({
   id:{
@@ -40,7 +40,7 @@ onMounted(()=>{getPost(props.id)});
   <br>
   <br>
   <div style="margin-top: 10px">
-    <form @submit.prevent="storeComment(form)">
+    <form @submit.prevent="storePostComment(form)">
       <div>
         <label for="comment">Comment Form</label>
         <input type="text" name="comment" id="comment" v-model="form.comment">
@@ -49,7 +49,7 @@ onMounted(()=>{getPost(props.id)});
         </div>
       </div>
       <div>
-        <button type="submit">Store</button>
+        <button type="submit">Submit</button>
       </div>
     </form>
   </div>

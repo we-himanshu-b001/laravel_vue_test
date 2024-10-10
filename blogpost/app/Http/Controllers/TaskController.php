@@ -30,7 +30,7 @@ class TaskController extends Controller
         $task->user_id = $request->get('user_id') ?? 18;
         $task->save();
 
-        return response()->json("Task Added");
+        return response()->json(['message'=>"Task Added",'status'=>201]);
     }
 
     public function updateTask(Request $r,Task $tid){

@@ -33,7 +33,7 @@ class PostController extends Controller
         $post->user_id = $request->get('user_id') ?? 18;
         $post->save();
 
-        return response()->json("Post Added");
+        return response()->json(['message'=>"Post Added",'status'=>201]);
     }
 
     public function updatePost(Request $r,Post $pid){

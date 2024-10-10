@@ -51,7 +51,7 @@ const generateSlug = (title) => {
         </div>
       </div>
       <div>
-        <button type="submit">Store</button>
+        <button type="submit">Submit</button>
       </div>
     </form>
   </div>

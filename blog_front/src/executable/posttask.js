@@ -1,6 +1,7 @@
 import {ref} from 'vue';
 import axios from 'axios';
 import {useRouter,useRoute} from "vue-router";
+import { toast } from 'vue3-toastify';
 
 export default function usePostTask(){
     const posts = ref([]);
@@ -11,6 +12,7 @@ export default function usePostTask(){
     // const route = useRoute();
     // const rid = route.params.id;
     const errors = ref({});
+    const successMessage = ref('');
 
     const getPosts = async ()=>{
         const response = await axios.get('http://127.0.0.1:2000/api/post');
@@ -25,6 +27,9 @@ export default function usePostTask(){
     const storePost = async(data)=>{
         try{
             await axios.post('http://127.0.0.1:2000/api/post',data);
+            toast.success("Post Posted Successfully!", {
+                position: toast.POSITION.TOP_CENTER,
+            });
             await router.push({name:"postindex"});
         }catch(error){
             if(error.response.status === 422){
@@ -36,6 +41,9 @@ export default function usePostTask(){
     const updatePost = async(id)=>{
         try{
             await axios.put('http://127.0.0.1:2000/api/post/'+id,post.value);
+            toast.success("Comment added Successfully!", {
+                position: toast.POSITION.TOP_CENTER,
+            });
             await router.push({name:"singlepost",params:{id:id}});
         }catch(error){
             if(error.response.status === 422){
@@ -49,6 +57,9 @@ export default function usePostTask(){
             return ;
         }
         await axios.delete('http://127.0.0.1:2000/api/post/'+id);
+        toast.success("Post Deleted Successfully!", {
+            position: toast.POSITION.TOP_CENTER,
+        });
         await router.push({name:"postindex"});
     }
 
@@ -64,7 +75,10 @@ export default function usePostTask(){
 
     const storeTask = async(data)=>{
         try{
-            await axios.post('http://127.0.0.1:2000/api/task',data);
+            const response = await axios.post('http://127.0.0.1:2000/api/task',data);
+            toast.success("Task Created Successfully!", {
+                position: toast.POSITION.TOP_CENTER,
+            });
             await router.push({name:"taskindex"});
         }catch(error){
             if(error.response.status === 422){
@@ -76,6 +90,9 @@ export default function usePostTask(){
     const updateTask = async(id)=>{
         try{
             await axios.put('http://127.0.0.1:2000/api/task/'+id,task.value);
+            toast.success("Task updated Successfully!", {
+                position: toast.POSITION.TOP_CENTER,
+            });
             await router.push({name:"singletask",params:{id:id}});
         }catch(error){
             if(error.response.status === 422){
@@ -92,9 +109,27 @@ export default function usePostTask(){
         await router.push({name:"taskindex"});
     }
 
-    const storeComment = async(data)=>{
+    const storePostComment = async(data)=>{
         try{
-            await axios.post('http://127.0.0.1:2000/api/comment/add',data);
+            await axios.post('http://127.0.0.1:2000/api/post/'+data.id+'/comment',data);
+            toast.success("Comment added Successfully!", {
+                position: toast.POSITION.TOP_CENTER,
+            });
+            // await router.push({name:"singletask",params:{id:rid}});
+            router.go(0);
+        }catch(error){
+            if(error.response.status === 422){
+                errors.value=error.response.data.errors;
+            }
+        }
+    }
+
+    const storeTaskComment = async(data)=>{
+        try{
+            await axios.post('http://127.0.0.1:2000/api/task/'+data.id+'/comment',data);
+            toast.success("Comment added Successfully!", {
+                position: toast.POSITION.TOP_CENTER,
+            });
             // await router.push({name:"singletask",params:{id:rid}});
             router.go(0);
         }catch(error){
@@ -119,7 +154,8 @@ export default function usePostTask(){
         storeTask,
         updateTask,
         deleteTask,
-        storeComment,
+        storePostComment,
+        storeTaskComment,
         errors
     };
 }

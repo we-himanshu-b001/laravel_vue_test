@@ -27,7 +27,7 @@ onMounted(()=>getPost(props.id));
         <input type="text" name="description" id="description" v-model="post.description"><br>
       </div>
       <div>
-        <button type="submit">Store</button>
+        <button type="submit">Submit</button>
       </div>
     </form>
   </div>

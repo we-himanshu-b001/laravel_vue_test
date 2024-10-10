@@ -2,7 +2,7 @@
 import { reactive, watch } from 'vue';
 import usePostTask from '../executable/posttask';
 
-const { storeTask, errors } = usePostTask();
+const { storeTask, errors,successMessage } = usePostTask();
 
 const form = reactive({
   title: '',
@@ -51,7 +51,11 @@ const generateSlug = (title) => {
         </div>
       </div>
       <div>
-        <button type="submit">Store</button>
+        <button type="submit">Submit</button>
+      </div>
+
+      <div v-if="successMessage" style="color:green">
+        {{ successMessage.message }}
       </div>
     </form>
   </div>
