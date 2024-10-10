@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 class CommentController extends Controller
 {
     public function add(Request $request){
+        $validatedData = $request->validate([
+            'post_id' => 'nullable|integer|exists:posts,id',
+            'task_id' => 'nullable|integer|exists:tasks,id',
+            'comment' => 'required|string|max:500',
+            'user_id' => 'nullable|integer|exists:users,id'
+        ]);
         $comment = new Comment();
         $comment->post_id = $request->get('post_id');
         $comment->task_id = $request->get('task_id');

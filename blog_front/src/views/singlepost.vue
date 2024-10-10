@@ -2,7 +2,7 @@
 import {onMounted,reactive} from "vue";
 import usePostTask from "../executable/posttask";
 
-const { post,getPost,storeComment, deletePost } = usePostTask();
+const { post,getPost,storeComment, deletePost, errors } = usePostTask();
 
 const props = defineProps({
   id:{
@@ -38,11 +38,15 @@ onMounted(()=>{getPost(props.id)});
     </div>
   </div>
   <br>
-  <div>
+  <br>
+  <div style="margin-top: 10px">
     <form @submit.prevent="storeComment(form)">
       <div>
         <label for="comment">Comment Form</label>
         <input type="text" name="comment" id="comment" v-model="form.comment">
+        <div v-if="errors.comment">
+          <span style="color:red">{{ errors.comment[0] }}</span>
+        </div>
       </div>
       <div>
         <button type="submit">Store</button>

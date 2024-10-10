@@ -17,6 +17,12 @@ class TaskController extends Controller
     }
 
     public function storeTask(Request $request){
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:posts,slug',
+            'description' => 'required|string',
+            'user_id' => 'nullable|integer|exists:users,id',
+        ]);
         $task = new Task();
         $task->title = $request->get('title');
         $task->slug = $request->get('slug');

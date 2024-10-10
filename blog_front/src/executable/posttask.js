@@ -8,7 +8,7 @@ export default function usePostTask(){
     const router = useRouter();
     // const route = useRoute();
     // const rid = route.params.id;
-    const errors = ref([]);
+    const errors = ref({});
 
     const getPosts = async ()=>{
         const response = await axios.get('http://127.0.0.1:2000/api/post');
@@ -21,8 +21,14 @@ export default function usePostTask(){
     }
 
     const storePost = async(data)=>{
-        await axios.post('http://127.0.0.1:2000/api/post',data);
-        await router.push({name:"postindex"});
+        try{
+            await axios.post('http://127.0.0.1:2000/api/post',data);
+            await router.push({name:"postindex"});
+        }catch(error){
+            if(error.response.status === 422){
+                errors.value=error.response.data.errors;
+            }
+        }
     }
 
     const updatePost = async(id)=>{
@@ -31,7 +37,6 @@ export default function usePostTask(){
             await router.push({name:"singlepost",params:{id:id}});
         }catch(error){
             if(error.response.status === 422){
-                console.log(error.response.data.errors);
                 errors.value=error.response.data.errors;
             }
         }
@@ -43,9 +48,15 @@ export default function usePostTask(){
     }
 
     const storeComment = async(data)=>{
-        await axios.post('http://127.0.0.1:2000/api/comment/add',data);
-        // await router.push({name:"singlepost",params:{id:rid}});
-        router.go(0);
+        try{
+            await axios.post('http://127.0.0.1:2000/api/comment/add',data);
+            // await router.push({name:"singlepost",params:{id:rid}});
+            router.go(0);
+        }catch(error){
+            if(error.response.status === 422){
+                errors.value=error.response.data.errors;
+            }
+        }
     }
 
     return {
@@ -56,6 +67,7 @@ export default function usePostTask(){
         storePost,
         updatePost,
         deletePost,
-        storeComment
+        storeComment,
+        errors
     };
 }
