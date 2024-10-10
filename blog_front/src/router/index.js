@@ -55,6 +55,29 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/taskview.vue')
+    },
+    {
+      path: '/task/create',
+      name: 'taskcreate',
+      component: () => import('../views/createtask.vue')
+    },
+    {
+      path: '/task/:id',
+      name: 'singletask',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/singletask.vue'),
+      props:true
+    },
+    {
+      path: '/task/edit/:id',
+      name: 'edittask',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/edittask.vue'),
+      props:true
     }
   ]
 })

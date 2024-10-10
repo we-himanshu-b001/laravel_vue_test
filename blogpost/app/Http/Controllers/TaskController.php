@@ -33,7 +33,7 @@ class TaskController extends Controller
         return response()->json("Task Added");
     }
 
-    public function updatePost(Request $r,Task $tid){
+    public function updateTask(Request $r,Task $tid){
         $tid->update($r->all());
         return response()->json("Task Updated");
     }

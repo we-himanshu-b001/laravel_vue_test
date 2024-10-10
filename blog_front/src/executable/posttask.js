@@ -5,6 +5,8 @@ import {useRouter,useRoute} from "vue-router";
 export default function usePostTask(){
     const posts = ref([]);
     const post =ref([]);
+    const tasks = ref([]);
+    const task =ref([]);
     const router = useRouter();
     // const route = useRoute();
     // const rid = route.params.id;
@@ -43,14 +45,57 @@ export default function usePostTask(){
     }
 
     const deletePost = async (id)=>{
+        if(!window.confirm("Are you sure?")){
+            return ;
+        }
         await axios.delete('http://127.0.0.1:2000/api/post/'+id);
         await router.push({name:"postindex"});
+    }
+
+    const getTasks = async ()=>{
+        const response = await axios.get('http://127.0.0.1:2000/api/task');
+        tasks.value=response.data;
+    }
+
+    const getTask = async (id)=>{
+        const response = await axios.get('http://127.0.0.1:2000/api/task/'+id);
+        task.value=response.data;
+    }
+
+    const storeTask = async(data)=>{
+        try{
+            await axios.post('http://127.0.0.1:2000/api/task',data);
+            await router.push({name:"taskindex"});
+        }catch(error){
+            if(error.response.status === 422){
+                errors.value=error.response.data.errors;
+            }
+        }
+    }
+
+    const updateTask = async(id)=>{
+        try{
+            await axios.put('http://127.0.0.1:2000/api/task/'+id,task.value);
+            await router.push({name:"singletask",params:{id:id}});
+        }catch(error){
+            if(error.response.status === 422){
+                errors.value=error.response.data.errors;
+            }
+        }
+    }
+
+    const deleteTask = async (id)=>{
+        if(!window.confirm("Are you sure?")){
+            return ;
+        }
+        await axios.delete('http://127.0.0.1:2000/api/task/'+id);
+        await router.push({name:"taskindex"});
     }
 
     const storeComment = async(data)=>{
         try{
             await axios.post('http://127.0.0.1:2000/api/comment/add',data);
-            // await router.push({name:"singlepost",params:{id:rid}});
+            // await router.push({name:"singletask",params:{id:rid}});
             router.go(0);
         }catch(error){
             if(error.response.status === 422){
@@ -62,11 +107,18 @@ export default function usePostTask(){
     return {
         post,
         posts,
+        task,
+        tasks,
         getPosts,
         getPost,
         storePost,
         updatePost,
         deletePost,
+        getTasks,
+        getTask,
+        storeTask,
+        updateTask,
+        deleteTask,
         storeComment,
         errors
     };
