@@ -10,12 +10,10 @@ use Illuminate\Http\Request;
 class PostController extends Controller
 {
     public function index(){
-        return Post::all();
+        return Post::withCount('getComment')->get();
     }
 
     public function singlePost(Post $pid){
-//        return $pid->with('getComment')->get(['id','title','slug','description'])->toArray();
-//        return $pid->with('getComment')->get(['id','title','slug','description']);
         return $pid->load('getComment')->toArray();
     }
 
@@ -28,6 +26,11 @@ class PostController extends Controller
         $post->save();
 
         return response()->json("Post Added");
+    }
+
+    public function updatePost(Request $r,Post $pid){
+        $pid->update($r->all());
+        return response()->json("Post Updated");
     }
 
     public function deletePost(Post $pid){

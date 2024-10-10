@@ -2,7 +2,7 @@
 import {onMounted,reactive} from "vue";
 import usePostTask from "../executable/posttask";
 
-const { post,getPost,storeComment } = usePostTask();
+const { post,getPost,storeComment, deletePost } = usePostTask();
 
 const props = defineProps({
   id:{
@@ -19,6 +19,11 @@ onMounted(()=>{getPost(props.id)});
 </script>
 
 <template>
+  <br>
+  <div>
+    <RouterLink :to="{name:'editpost', params:{id: post.id }}">Edit This Post</RouterLink>
+    <button @click="deletePost(post.id)">Delete</button>
+  </div>
   <br>
   <div class="">
     <div>

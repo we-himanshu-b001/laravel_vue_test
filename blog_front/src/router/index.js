@@ -40,6 +40,15 @@ const router = createRouter({
       props:true
     },
     {
+      path: '/post/edit/:id',
+      name: 'editpost',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/editpost.vue'),
+      props:true
+    },
+    {
       path: '/task',
       name: 'taskindex',
       // route level code-splitting

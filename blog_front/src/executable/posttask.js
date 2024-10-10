@@ -6,8 +6,8 @@ export default function usePostTask(){
     const posts = ref([]);
     const post =ref([]);
     const router = useRouter();
-    const route = useRoute();
-    const rid = route.params.id;
+    // const route = useRoute();
+    // const rid = route.params.id;
     const errors = ref([]);
 
     const getPosts = async ()=>{
@@ -28,13 +28,18 @@ export default function usePostTask(){
     const updatePost = async(id)=>{
         try{
             await axios.put('http://127.0.0.1:2000/api/post/'+id,post.value);
-            await router.push({name:"postindex"});
+            await router.push({name:"singlepost",params:{id:id}});
         }catch(error){
             if(error.response.status === 422){
                 console.log(error.response.data.errors);
                 errors.value=error.response.data.errors;
             }
         }
+    }
+
+    const deletePost = async (id)=>{
+        await axios.delete('http://127.0.0.1:2000/api/post/'+id);
+        await router.push({name:"postindex"});
     }
 
     const storeComment = async(data)=>{
@@ -50,6 +55,7 @@ export default function usePostTask(){
         getPost,
         storePost,
         updatePost,
+        deletePost,
         storeComment
     };
 }
