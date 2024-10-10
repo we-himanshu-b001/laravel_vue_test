@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,9 @@ class PostController extends Controller
     }
 
     public function singlePost(Post $pid){
-        return $pid->with('getComment')->only(['id','title','slug','description']);
+//        return $pid->with('getComment')->get(['id','title','slug','description'])->toArray();
+//        return $pid->with('getComment')->get(['id','title','slug','description']);
+        return $pid->load('getComment')->toArray();
     }
 
     public function storePost(Request $request){
@@ -21,7 +24,7 @@ class PostController extends Controller
         $post->title = $request->get('title');
         $post->slug = $request->get('slug');
         $post->description = $request->get('description');
-        $post->user_id = $request->get('user_id');
+        $post->user_id = $request->get('user_id') ?? 18;
         $post->save();
 
         return response()->json("Post Added");

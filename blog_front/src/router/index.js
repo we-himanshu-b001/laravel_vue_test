@@ -16,6 +16,36 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
+    },
+    {
+      path: '/post',
+      name: 'postindex',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/postview.vue')
+    },
+    {
+      path: '/post/create',
+      name: 'postcreate',
+      component: () => import('../views/createpost.vue')
+    },
+    {
+      path: '/post/:id',
+      name: 'singlepost',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/singlepost.vue'),
+      props:true
+    },
+    {
+      path: '/task',
+      name: 'taskindex',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/taskview.vue')
     }
   ]
 })
