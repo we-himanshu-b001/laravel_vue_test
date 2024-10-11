@@ -17,25 +17,42 @@ class TaskController extends Controller
     }
 
     public function storeTask(Request $request){
-        $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:posts,slug',
-            'description' => 'required|string',
-            'user_id' => 'nullable|integer|exists:users,id',
-        ]);
-        $task = new Task();
-        $task->title = $request->get('title');
-        $task->slug = $request->get('slug');
-        $task->description = $request->get('description');
-        $task->user_id = $request->get('user_id') ?? 18;
-        $task->save();
+        try{
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'slug' => 'required|string|max:255|unique:posts,slug',
+                'description' => 'required|string',
+                'user_id' => 'nullable|integer',
+            ]);
 
-        return response()->json(['message'=>"Task Added",'status'=>201]);
+            $task = new Task();
+            $task->title = $request->get('title');
+            $task->slug = $request->get('slug');
+            $task->description = $request->get('description');
+            $task->user_id = $request->get('user_id') ?? 107;
+            $task->save();
+
+            return response()->json(['message'=>"Post Added",'status'=>201]);
+        }catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json($e->validator->errors(), 422);
+        }
+
     }
 
     public function updateTask(Request $r,Task $tid){
-        $tid->update($r->all());
-        return response()->json("Task Updated");
+        try {
+            $validatedData = $r->validate([
+                'title' => 'required|string|max:255',
+                'slug' => 'required|string|max:255|unique:posts,slug,' . $tid->id,
+                'description' => 'required|string',
+                'user_id' => 'nullable|integer',
+            ]);
+
+            $tid->update($validatedData);
+            return response()->json("Post Updated");
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json($e->validator->errors(), 422);
+        }
     }
 
     public function deleteTask(Task $tid){

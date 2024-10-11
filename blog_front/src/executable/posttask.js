@@ -20,20 +20,30 @@ export default function usePostTask(){
     }
 
     const getPost = async (id)=>{
-        const response = await axios.get('http://127.0.0.1:2000/api/post/'+id);
-        post.value=response.data;
+        try{
+            const response = await axios.get('http://127.0.0.1:2000/api/post/'+id);
+            // toast("Wow so easy!", {
+            //     autoClose: 1000,
+            // });
+            post.value=response.data;
+        }catch(error){
+            if(error.response.status === 422){
+                errors.value=error.response.data;
+            }
+            await router.push({name:"postindex"});
+        }
     }
 
     const storePost = async(data)=>{
         try{
             await axios.post('http://127.0.0.1:2000/api/post',data);
-            toast.success("Post Posted Successfully!", {
-                position: toast.POSITION.TOP_CENTER,
+            toast("Post Created Successfully!", {
+                autoClose: 1000,
             });
             await router.push({name:"postindex"});
         }catch(error){
             if(error.response.status === 422){
-                errors.value=error.response.data.errors;
+                errors.value=error.response.data;
             }
         }
     }
@@ -41,13 +51,13 @@ export default function usePostTask(){
     const updatePost = async(id)=>{
         try{
             await axios.put('http://127.0.0.1:2000/api/post/'+id,post.value);
-            toast.success("Comment added Successfully!", {
-                position: toast.POSITION.TOP_CENTER,
+            toast("Post Updated Successfully!", {
+                autoClose: 1000,
             });
             await router.push({name:"singlepost",params:{id:id}});
         }catch(error){
             if(error.response.status === 422){
-                errors.value=error.response.data.errors;
+                errors.value=error.response.data;
             }
         }
     }
@@ -57,8 +67,8 @@ export default function usePostTask(){
             return ;
         }
         await axios.delete('http://127.0.0.1:2000/api/post/'+id);
-        toast.success("Post Deleted Successfully!", {
-            position: toast.POSITION.TOP_CENTER,
+        toast("Post Deleted Successfully!", {
+            autoClose: 1000,
         });
         await router.push({name:"postindex"});
     }
@@ -85,13 +95,13 @@ export default function usePostTask(){
     const storeTask = async(data)=>{
         try{
             const response = await axios.post('http://127.0.0.1:2000/api/task',data);
-            toast.success("Task Created Successfully!", {
-                position: toast.POSITION.TOP_CENTER,
+            toast("Task Created Successfully!", {
+                autoClose: 1000,
             });
             await router.push({name:"taskindex"});
         }catch(error){
             if(error.response.status === 422){
-                errors.value=error.response.data.errors;
+                errors.value=error.response.data;
             }
         }
     }
@@ -99,13 +109,13 @@ export default function usePostTask(){
     const updateTask = async(id)=>{
         try{
             await axios.put('http://127.0.0.1:2000/api/task/'+id,task.value);
-            toast.success("Task updated Successfully!", {
-                position: toast.POSITION.TOP_CENTER,
+            toast("Task Updated Successfully!", {
+                autoClose: 1000,
             });
             await router.push({name:"singletask",params:{id:id}});
         }catch(error){
             if(error.response.status === 422){
-                errors.value=error.response.data.errors;
+                errors.value=error.response.data;
             }
         }
     }
@@ -115,17 +125,21 @@ export default function usePostTask(){
             return ;
         }
         await axios.delete('http://127.0.0.1:2000/api/task/'+id);
+        toast("Task Deleted Successfully!", {
+            autoClose: 1000,
+        });
         await router.push({name:"taskindex"});
     }
 
     const storePostComment = async(data)=>{
+
         try{
             await axios.post('http://127.0.0.1:2000/api/post/'+data.id+'/comment',data);
-            toast.success("Comment added Successfully!", {
-                position: toast.POSITION.TOP_CENTER,
+            toast("Comment added Successfully!", {
+                autoClose: 1000,
             });
-            // await router.push({name:"singletask",params:{id:rid}});
-            router.go(0);
+            await router.push({name:"singletask",params:{id:data.id}});
+            // router.go(0);
         }catch(error){
             if(error.response.status === 422){
                 errors.value=error.response.data.errors;
@@ -136,12 +150,11 @@ export default function usePostTask(){
     const storeTaskComment = async(data)=>{
         try{
             await axios.post('http://127.0.0.1:2000/api/task/'+data.id+'/comment',data);
-
+            toast("Comment Added Successfully!", {
+                autoClose: 1000,
+            });
             // await router.push({name:"singletask",params:{id:rid}});
             router.go(0);
-            // toast.success("Comment added Successfully!", {
-            //     position: toast.POSITION.TOP_CENTER,
-            // });
         }catch(error){
             if(error.response.status === 422){
                 errors.value=error.response.data.errors;
