@@ -112,6 +112,7 @@ onMounted(()=>{getPosts()});
   flex-direction: column;
   justify-content: space-between;
   width:190%;
+  word-wrap: break-word;
 }
 
 .post-card:hover {
@@ -133,6 +134,10 @@ onMounted(()=>{getPosts()});
   margin: 10px 0;
   line-height: 1.5;
   flex-grow: 1; /* Allow description to take available space */
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
 }
 
 .post-comment-count {

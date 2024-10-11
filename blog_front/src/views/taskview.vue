@@ -61,6 +61,7 @@ onMounted(()=>{getTasks()});
   padding: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease;
+  word-wrap: break-word;
 }
 
 .task-card:hover {
@@ -80,6 +81,10 @@ onMounted(()=>{getTasks()});
 
 .task-description {
   margin-bottom: 10px;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
 }
 
 .task-comment-count {

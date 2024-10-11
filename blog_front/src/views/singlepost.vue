@@ -130,6 +130,7 @@ onMounted(()=>{getPost(props.id)});
 .post-description {
   margin: 10px 0;
   line-height: 1.5;
+  word-wrap: break-word;
 }
 
 .comments-list {

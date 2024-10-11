@@ -19,9 +19,7 @@ const form = reactive({
 onMounted(()=>{getTask(props.id)});
 </script>
 <template>
-  <div v-if="errors.message">
-    <span class="error-message">{{ errors.message }}</span>
-  </div>
+
   <div id="task-details">
     <div class="task-actions">
       <RouterLink :to="{ name: 'edittask', params: { id: task.id } }" class="btn btn-secondary">Edit This Task</RouterLink>
@@ -98,6 +96,7 @@ onMounted(()=>{getTask(props.id)});
 
 .task-description {
   margin-bottom: 20px; /* Space below the description */
+  word-wrap: break-word;
 }
 
 .comments-section {

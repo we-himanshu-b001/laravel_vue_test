@@ -138,9 +138,15 @@ export default function usePostTask(){
             toast("Comment added Successfully!", {
                 autoClose: 1000,
             });
+            // console.log(post);
+            // post.push(data);
+            // console.log(post.get_comment);// Add the new comment locally
+            // data.value = ''; // Clear the input
             await router.push({name:"singletask",params:{id:data.id}});
             // router.go(0);
+
         }catch(error){
+            // console.log(error);
             if(error.response.status === 422){
                 errors.value=error.response.data.errors;
             }
