@@ -17,6 +17,7 @@ const form = reactive({
 });
 
 onMounted(()=>{getPost(props.id)});
+form.comment='';
 </script>
 
 <template>

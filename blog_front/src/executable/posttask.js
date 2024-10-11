@@ -138,13 +138,11 @@ export default function usePostTask(){
             toast("Comment added Successfully!", {
                 autoClose: 1000,
             });
-            // console.log(post);
-            // post.push(data);
-            // console.log(post.get_comment);// Add the new comment locally
-            // data.value = ''; // Clear the input
-            await router.push({name:"singletask",params:{id:data.id}});
+            if(post.value.get_comment){
+                post.value.get_comment.push(data);
+            }
+            // await router.push({name:"singletask",params:{id:data.id}});
             // router.go(0);
-
         }catch(error){
             // console.log(error);
             if(error.response.status === 422){
@@ -159,8 +157,11 @@ export default function usePostTask(){
             toast("Comment Added Successfully!", {
                 autoClose: 1000,
             });
+            if(task.value.get_comment){
+                task.value.get_comment.push(data);
+            }
             // await router.push({name:"singletask",params:{id:rid}});
-            router.go(0);
+            // router.go(0);
         }catch(error){
             if(error.response.status === 422){
                 errors.value=error.response.data.errors;
