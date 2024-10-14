@@ -17,6 +17,20 @@ const form = reactive({
 });
 
 onMounted(()=>{getTask(props.id)});
+
+const submitComment = async () => {
+  try {
+    await storeTaskComment({...form}); // Clone form data before sending
+    // Add a cloned version of the new comment to the post's comments list
+    if (task.get_comment) {
+      task.get_comment.push({...form.comment});
+    }
+    form.comment = ''; // Clear the comment input after successful submission
+  } catch (error) {
+    console.error('Failed to submit comment:', error);
+  }
+};
+
 </script>
 <template>
 
@@ -43,7 +57,7 @@ onMounted(()=>{getTask(props.id)});
     </div>
 
     <div class="comment-form">
-      <form @submit.prevent="storeTaskComment(form)">
+      <form @submit.prevent="submitComment()">
         <label for="comment">Add a Comment</label>
         <input
             type="text"

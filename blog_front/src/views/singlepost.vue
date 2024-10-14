@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted,reactive} from "vue";
+import {onMounted,reactive,ref} from "vue";
 import usePostTask from "../executable/posttask";
 
 const { post,getPost,storePostComment, deletePost, errors } = usePostTask();
@@ -17,7 +17,20 @@ const form = reactive({
 });
 
 onMounted(()=>{getPost(props.id)});
-form.comment='';
+// form.comment='';
+
+const submitComment = async () => {
+  try {
+    await storePostComment({...form}); // Clone form data before sending
+    // Add a cloned version of the new comment to the post's comments list
+    if (post.get_comment) {
+      post.get_comment.push({...form.comment});
+    }
+    form.comment = ''; // Clear the comment input after successful submission
+  } catch (error) {
+    console.error('Failed to submit comment:', error);
+  }
+};
 </script>
 
 <template>
@@ -47,7 +60,7 @@ form.comment='';
       </div>
 
       <div class="comment-form" style="margin-top: 20px;">
-        <form @submit.prevent="storePostComment(form)">
+        <form @submit.prevent="submitComment()">
           <div>
             <label for="comment">Comment Form</label>
             <input

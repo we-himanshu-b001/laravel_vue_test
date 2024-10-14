@@ -144,7 +144,7 @@ export default function usePostTask(){
             // await router.push({name:"singletask",params:{id:data.id}});
             // router.go(0);
         }catch(error){
-            // console.log(error);
+            console.log(error);
             if(error.response.status === 422){
                 errors.value=error.response.data.errors;
             }
